@@ -1,93 +1,200 @@
+// Export the Drawflow class to be used in other modules or files.
 export default class Drawflow {
+  /*
+  Constructor method
+  ==================
+  1. Core Data Structures:     Variables like drawflow, noderegister, and events are 
+                               central to managing the state of the editor.
+  2. Zoom and Mobile Support:  Zoom settings and touch events are supported, making the 
+                               library versatile for different devices.
+  3. Custom Node and Connection Handling: Flexibility in customizing node behavior 
+                               (draggable_inputs, reroute) and handling complex workflows.
+
+  */
+  // Constructor method, called when an instance of the class is created.
   constructor(container, render = null, parent = null) {
+    
+    // Event listeners object to hold various event callbacks (e.g., node addition, connection creation).
     this.events = {};
+    
+    // Reference to the container element where the drawflow canvas will be rendered.
     this.container = container;
+    
+    // Will store the canvas/pre-canvas element where nodes and connections will be drawn.
     this.precanvas = null;
+    
+    // Counter for generating unique node IDs. Starts at 1.
     this.nodeId = 1;
-    this.ele_selected = null;
-    this.node_selected = null;
-    this.drag = false;
-    this.reroute = false;
-    this.reroute_fix_curvature = false;
-    this.curvature = 0.5;
-    this.reroute_curvature_start_end = 0.5;
-    this.reroute_curvature = 0.5;
-    this.reroute_width = 6;
-    this.drag_point = false;
-    this.editor_selected = false;
-    this.connection = false;
-    this.connection_ele = null;
-    this.connection_selected = null;
-    this.canvas_x = 0;
-    this.canvas_y = 0;
-    this.pos_x = 0;
-    this.pos_x_start = 0;
-    this.pos_y = 0;
-    this.pos_y_start = 0;
-    this.mouse_x = 0;
-    this.mouse_y = 0;
-    this.line_path = 5;
-    this.first_click = null;
-    this.force_first_input = false;
-    this.draggable_inputs = true;
-    this.useuuid = false;
+
+    // Variables to track the currently selected element (HTML element or node).
+    this.ele_selected = null; // The currently selected HTML element.
+    this.node_selected = null; // The currently selected node object.
+
+    // Flags to track various states (dragging, connecting, etc.).
+    this.drag = false; // Indicates whether a node is being dragged.
+    this.reroute = false; // Enables rerouting of connections for custom path drawing.
+    this.reroute_fix_curvature = false; // If true, fixes curvature for rerouted connections.
+
+    // Curvature values for bezier connections (for rerouting and standard connections).
+    this.curvature = 0.5; // Curvature of connections between nodes.
+    this.reroute_curvature_start_end = 0.5; // Curvature for the start/end of rerouted paths.
+    this.reroute_curvature = 0.5; // Curvature for rerouted paths.
+    this.reroute_width = 6; // Width of rerouted paths/connection lines.
+
+    // Flags for handling node and point dragging.
+    this.drag_point = false; // Indicates if a connection point is being dragged.
+    this.editor_selected = false; // Indicates if the editor itself (canvas) is selected.
+
+    // Variables for managing connections between nodes.
+    this.connection = false; // Whether a connection is currently being made between nodes.
+    this.connection_ele = null; // The element that is being connected.
+    this.connection_selected = null; // The currently selected connection.
+
+    // Canvas positioning and panning variables.
+    this.canvas_x = 0; // X-coordinate of the canvas.
+    this.canvas_y = 0; // Y-coordinate of the canvas.
+    this.pos_x = 0; // X-coordinate of the cursor or element being moved.
+    this.pos_x_start = 0; // Initial X-coordinate at the start of a drag event.
+    this.pos_y = 0; // Y-coordinate of the cursor or element being moved.
+    this.pos_y_start = 0; // Initial Y-coordinate at the start of a drag event.
+    
+    // Mouse positioning variables.
+    this.mouse_x = 0; // Current X-position of the mouse.
+    this.mouse_y = 0; // Current Y-position of the mouse.
+
+    // Path width for drawing connection lines between nodes.
+    this.line_path = 5; // Default width of connection lines.
+
+    // Variables for managing interaction states.
+    this.first_click = null; // Tracks the first click for certain actions (e.g., selecting nodes).
+    this.force_first_input = false; // Forces connection from the first input of a node.
+
+    // Controls whether input nodes are draggable or static.
+    this.draggable_inputs = true; // Allow input nodes to be dragged.
+
+    // Flag to determine if UUIDs (universally unique identifiers) should be used for node IDs.
+    this.useuuid = false; // If true, UUIDs will be used instead of numerical IDs.
+
+    // Reference to a parent object, useful for embedding Drawflow within another UI component.
     this.parent = parent;
 
-    this.noderegister = {};
-    this.render = render;
-    this.drawflow = { "drawflow": { "Home": { "data": {} }}};
-    // Configurable options
-    this.module = 'Home';
-    this.editor_mode = 'edit';
-    this.zoom = 1;
-    this.zoom_max = 1.6;
-    this.zoom_min = 0.5;
-    this.zoom_value = 0.1;
-    this.zoom_last_value = 1;
+    // Object to register different types of nodes.
+    this.noderegister = {}; // Stores the node types that can be added to the editor.
 
-    // Mobile
-    this.evCache = new Array();
-    this.prevDiff = -1;
+    // Render engine, if provided, will handle custom rendering of nodes.
+    this.render = render;
+
+    // Main data structure holding the entire drawflow data, starting with the "Home" module.
+    this.drawflow = { "drawflow": { "Home": { "data": {} }}};
+
+    // Configurable options for the editor.
+    this.module = 'Home'; // Active module name, default is "Home."
+    this.editor_mode = 'edit'; // The current mode of the editor (edit/view).
+    
+    // Zoom settings for the editor.
+    this.zoom = 1; // Current zoom level.
+    this.zoom_max = 1.6; // Maximum zoom level.
+    this.zoom_min = 0.5; // Minimum zoom level.
+    this.zoom_value = 0.1; // Incremental value for zooming.
+    this.zoom_last_value = 1; // Last recorded zoom level.
+
+    // Variables for mobile touch event handling.
+    this.evCache = new Array(); // Cache to store touch events.
+    this.prevDiff = -1; // Used to store the previous distance between two touch points.
   }
+}
 
   start () {
-    // console.info("Start Drawflow!!");
+    /*
+    start method
+    ============
+      
+    1. Initialization:    The start method initializes the editor by creating the drawing canvas 
+                          (precanvas) and setting up event listeners for mouse and touch interactions.
+    2. Event Handlers:    Various event listeners (for mouse, touch, and keyboard) are bound to 
+                          corresponding methods that handle user interactions such as dragging nodes, 
+                          making connections, zooming, and updating node values.
+    3. Mobile Support:    Pointer events (onpointerdown, etc.) are used to ensure compatibility with mobile 
+                          devices, allowing gestures like dragging, zooming, and panning.
+    4. Context Menu and Keyboard Input: Right-click context menus and keydown events (such as for deleting 
+                          nodes) are handled for user convenience.
+    */
+    // Initializes the Drawflow editor. Sets up the container and necessary event listeners.
+
+    // Adds the 'parent-drawflow' class to the container to apply styles specific to the editor.
     this.container.classList.add("parent-drawflow");
+
+    // Sets the container's tabIndex to 0, making it focusable via keyboard events (e.g., keydown for delete).
     this.container.tabIndex = 0;
+
+    // Creates a new div element that will serve as the canvas where nodes and connections are rendered.
     this.precanvas = document.createElement('div');
+
+    // Adds the 'drawflow' class to the newly created canvas div for styling purposes.
     this.precanvas.classList.add("drawflow");
+
+    // Appends the precanvas div to the container, embedding the drawing canvas into the DOM.
     this.container.appendChild(this.precanvas);
 
     /* Mouse and Touch Actions */
+    // Binds mouse/touch actions to the corresponding event handlers.
+    // Mouse 'mouseup' event to stop dragging or connecting elements.
     this.container.addEventListener('mouseup', this.dragEnd.bind(this));
-    this.container.addEventListener('mousemove', this.position.bind(this));
-    this.container.addEventListener('mousedown', this.click.bind(this) );
 
+    // Mouse 'mousemove' event to track cursor position and move elements accordingly.
+    this.container.addEventListener('mousemove', this.position.bind(this));
+
+    // Mouse 'mousedown' event to detect node or element selection (start dragging or connecting).
+    this.container.addEventListener('mousedown', this.click.bind(this));
+
+    // Touch 'touchend' event, behaves similarly to mouseup but for touch devices.
     this.container.addEventListener('touchend', this.dragEnd.bind(this));
+
+    // Touch 'touchmove' event, tracks the finger's position during dragging on touch devices.
     this.container.addEventListener('touchmove', this.position.bind(this));
+
+    // Touch 'touchstart' event to detect touch inputs and handle selection or dragging on touch devices.
     this.container.addEventListener('touchstart', this.click.bind(this));
 
     /* Context Menu */
+    // Right-click 'contextmenu' event to handle custom context menus (e.g., adding or deleting nodes).
     this.container.addEventListener('contextmenu', this.contextmenu.bind(this));
+
     /* Delete */
+    // 'keydown' event, listens for keyboard actions (e.g., delete or backspace to remove selected nodes/connections).
     this.container.addEventListener('keydown', this.key.bind(this));
 
     /* Zoom Mouse */
+    // 'wheel' event to handle zooming in and out using the mouse wheel or touchpad scrolling.
     this.container.addEventListener('wheel', this.zoom_enter.bind(this));
+
     /* Update data Nodes */
+    // 'input' event, listens for changes in input fields within nodes, enabling live updates to node data.
     this.container.addEventListener('input', this.updateNodeValue.bind(this));
 
+    // 'dblclick' event to detect double-clicks, commonly used for actions like opening node settings or expanding a node.
     this.container.addEventListener('dblclick', this.dblclick.bind(this));
+
     /* Mobile zoom */
+    // Pointer events are used for mobile devices, allowing multi-touch gestures and pointer interactions.
+    // 'pointerdown' event to track the start of touch or pointer interactions.
     this.container.onpointerdown = this.pointerdown_handler.bind(this);
+
+    // 'pointermove' event to track pointer movement (e.g., for panning or dragging on mobile devices).
     this.container.onpointermove = this.pointermove_handler.bind(this);
+
+    // 'pointerup' event to handle when a pointer (touch or stylus) is lifted, signaling the end of an interaction.
     this.container.onpointerup = this.pointerup_handler.bind(this);
+
+    // 'pointercancel', 'pointerout', and 'pointerleave' events to ensure pointer-related interactions are properly ended when a touch or pointer leaves the canvas area.
     this.container.onpointercancel = this.pointerup_handler.bind(this);
     this.container.onpointerout = this.pointerup_handler.bind(this);
     this.container.onpointerleave = this.pointerup_handler.bind(this);
 
+    // Loads the initial data and setup for the drawflow editor (e.g., restoring saved nodes or connections).
     this.load();
   }
+
 
   /* Mobile zoom */
   pointerdown_handler(ev) {
@@ -137,6 +244,7 @@ export default class Drawflow {
    }
   }
   /* End Mobile Zoom */
+    
   load() {
     for (var key in this.drawflow.drawflow[this.module].data) {
       this.addNodeImport(this.drawflow.drawflow[this.module].data[key], this.precanvas);
