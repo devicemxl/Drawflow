@@ -195,56 +195,86 @@ export default class Drawflow {
     this.load();
   }
 
+/* .
+    Mobile zoom
+    ============
+  
+    
+  1. Mobile Zoom via Pinch Gesture:   The evCache stores active pointer events (fingers, styluses, etc.). When two pointers are detected, 
+                                      the code calculates the distance between them.
+                                      A pinch gesture (two fingers moving apart or closer) is recognized by comparing the horizontal distance 
+                                      (clientX) between the two touch points.
+                                      If the distance between the touch points increases, the zoom_in method is called to increase the 
+                                      zoom level. If the distance decreases, the zoom_out method is called to decrease the zoom level.
+  2. Pointer Cache (evCache):         This array stores all active touch events, allowing the system to track multiple simultaneous touches.
+                                      When a touch is removed (via the pointerup event), the corresponding pointer is removed from the cache by remove_event.
+  3. Resetting State:                 If fewer than two touch points are active, the prevDiff (previous distance between fingers) is reset 
+                                      to -1, indicating that no zoom action is taking place.
+*/
 
-  /* Mobile zoom */
+  // Event handler for the 'pointerdown' event, triggered when a pointer (finger or stylus) touches the screen.
   pointerdown_handler(ev) {
-   this.evCache.push(ev);
+    // Adds the event (containing pointer information) to the event cache (`evCache`), which stores active touch points.
+    this.evCache.push(ev);
   }
 
+  // Event handler for the 'pointermove' event, triggered when a pointer moves on the screen.
   pointermove_handler(ev) {
-   for (var i = 0; i < this.evCache.length; i++) {
-     if (ev.pointerId == this.evCache[i].pointerId) {
+    // Loops through the event cache to find the pointer event that matches the current one (`ev.pointerId`).
+    for (var i = 0; i < this.evCache.length; i++) {
+      if (ev.pointerId == this.evCache[i].pointerId) {
+        // Updates the cached event with the current pointer data.
         this.evCache[i] = ev;
-     break;
-     }
-   }
+        break; // Exit the loop once the correct pointer event is found and updated.
+      }
+    }
 
-   if (this.evCache.length == 2) {
-     // Calculate the distance between the two pointers
-     var curDiff = Math.abs(this.evCache[0].clientX - this.evCache[1].clientX);
+    // Check if two pointers are on the screen (i.e., a pinch gesture is happening).
+    if (this.evCache.length == 2) {
+      // Calculate the horizontal distance between the two pointers.
+      var curDiff = Math.abs(this.evCache[0].clientX - this.evCache[1].clientX);
 
-     if (this.prevDiff > 100) {
-       if (curDiff > this.prevDiff) {
-         // The distance between the two pointers has increased
-
-         this.zoom_in();
-       }
-       if (curDiff < this.prevDiff) {
-         // The distance between the two pointers has decreased
-         this.zoom_out();
-       }
-     }
-     this.prevDiff = curDiff;
-   }
+      // If there was a previous recorded distance, compare it to the current distance.
+      if (this.prevDiff > 100) {
+        // If the distance has increased, zoom in (the fingers are moving apart).
+        if (curDiff > this.prevDiff) {
+          this.zoom_in(); // Calls the zoom-in method to increase zoom level.
+        }
+        // If the distance has decreased, zoom out (the fingers are coming together).
+        if (curDiff < this.prevDiff) {
+          this.zoom_out(); // Calls the zoom-out method to decrease zoom level.
+        }
+      }
+      // Store the current distance for the next move event.
+      this.prevDiff = curDiff;
+    }
   }
 
+  // Event handler for the 'pointerup' event, triggered when a pointer is lifted from the screen.
   pointerup_handler(ev) {
+    // Calls `remove_event` to remove the pointer from the cache when the pointer is no longer active.
     this.remove_event(ev);
+
+    // If fewer than two pointers are active, reset the previous difference (pinch-zooming is no longer possible).
     if (this.evCache.length < 2) {
       this.prevDiff = -1;
     }
   }
+
+  // Helper function to remove an event from the event cache.
   remove_event(ev) {
-   // Remove this event from the target's cache
-   for (var i = 0; i < this.evCache.length; i++) {
-     if (this.evCache[i].pointerId == ev.pointerId) {
-       this.evCache.splice(i, 1);
-       break;
-     }
-   }
+    // Loops through the event cache to find and remove the event corresponding to the pointer that was lifted.
+    for (var i = 0; i < this.evCache.length; i++) {
+      if (this.evCache[i].pointerId == ev.pointerId) {
+        // Removes the pointer event from the cache, as it's no longer needed.
+        this.evCache.splice(i, 1);
+        break; // Exit the loop once the event has been removed.
+      }
+    }
   }
   /* End Mobile Zoom */
-    
+
+
   load() {
     for (var key in this.drawflow.drawflow[this.module].data) {
       this.addNodeImport(this.drawflow.drawflow[this.module].data[key], this.precanvas);
