@@ -1,364 +1,242 @@
 :root {
-  --border-color: #cacaca;
-  --background-color: #ffffff;
-
-  --background-box-title: #f7f7f7;
+  /* Define CSS variables for consistent theming */
+  --border-color: #cacaca; /* Color used for borders throughout the application */
+  --background-color: #ffffff; /* Main background color for the application */
+  --background-box-title: #f7f7f7; /* Background color for title boxes */
 }
 
 html, body {
+  /* Reset default margin and padding for the entire document */
   margin: 0px;
   padding: 0px;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  font-family: 'Roboto', sans-serif;
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent overflow */
+  font-family: 'Roboto', sans-serif; /* Set font family for the application */
 }
 
 header {
-  height: 66px;
-  border-bottom: 1px solid var(--border-color);
-  padding-left: 20px;
-}
-header h2 {
-  margin: 0px;
-  line-height: 66px;
-}
-header a {
-  color: black;
-}
-.them-edit-link {
-  position: absolute;
-  top: 10px;
-  right: 100px;
-  color: black;
-  font-size: 40px;
-}
-.them-edit-link a {
-  text-decoration: none;
+  /* Styles for the header section */
+  height: 66px; /* Fixed height for header */
+  border-bottom: 1px solid var(--border-color); /* Bottom border using defined variable */
+  padding-left: 20px; /* Padding for left side */
 }
 
+header h2 {
+  margin: 0px; /* Remove default margin */
+  line-height: 66px; /* Center header text vertically */
+}
+
+header a {
+  color: black; /* Color for links in the header */
+}
+
+/* Positioning for edit link in the header */
+.them-edit-link {
+  position: absolute; /* Absolute positioning */
+  top: 10px; /* Top offset */
+  right: 100px; /* Right offset */
+  color: black; /* Link color */
+  font-size: 40px; /* Font size for the edit link */
+}
+
+.them-edit-link a {
+  text-decoration: none; /* Remove underline from link */
+}
+
+/* Positioning for GitHub link in the header */
 .github-link{
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  color: black;
+  position: absolute; /* Absolute positioning */
+  top: 10px; /* Top offset */
+  right: 20px; /* Right offset */
+  color: black; /* Link color */
 }
 
 .wrapper {
-  width: 100%;
-  height: calc(100vh - 67px);
-  display: flex;
+  /* Wrapper for the main content area */
+  width: 100%; /* Full width */
+  height: calc(100vh - 67px); /* Full height minus header */
+  display: flex; /* Use flexbox layout */
 }
 
 .col {
-  overflow: auto;
-  width: 300px;
-  height: 100%;
-  border-right: 1px solid var(--border-color);
+  /* Styles for columns in the layout */
+  overflow: auto; /* Enable scrolling if content overflows */
+  width: 300px; /* Fixed width for columns */
+  height: 100%; /* Full height of the wrapper */
+  border-right: 1px solid var(--border-color); /* Right border using defined variable */
 }
 
 .drag-drawflow {
-  line-height: 50px;
-  border-bottom: 1px solid var(--border-color);
-  padding-left: 20px;
-  cursor: move;
-  user-select: none;
+  /* Styles for draggable drawflow area */
+  line-height: 50px; /* Vertical alignment */
+  border-bottom: 1px solid var(--border-color); /* Bottom border */
+  padding-left: 20px; /* Padding for left side */
+  cursor: move; /* Change cursor to indicate dragging */
+  user-select: none; /* Prevent text selection */
 }
+
 .menu {
-  position: absolute;
-  height: 40px;
-  display: block;
-  background: white;
-  width: 100%;
+  /* Styles for the menu */
+  position: absolute; /* Absolute positioning */
+  height: 40px; /* Fixed height */
+  display: block; /* Block-level display */
+  background: white; /* Background color */
+  width: 100%; /* Full width */
 }
+
 .menu ul {
-  padding: 0px;
-  margin: 0px;
-  line-height: 40px;
+  padding: 0px; /* Remove padding */
+  margin: 0px; /* Remove margin */
+  line-height: 40px; /* Vertical alignment of menu items */
 }
 
 .menu ul li {
-  display: inline-block;
-margin-left: 10px;
-border-right: 1px solid var(--border-color);
-padding-right: 10px;
-line-height: 40px;
-cursor: pointer;
+  /* Styles for list items in the menu */
+  display: inline-block; /* Inline display for horizontal menu */
+  margin-left: 10px; /* Left margin for spacing */
+  border-right: 1px solid var(--border-color); /* Right border */
+  padding-right: 10px; /* Right padding for spacing */
+  line-height: 40px; /* Vertical alignment */
+  cursor: pointer; /* Change cursor to pointer */
 }
 
 .menu ul li.selected {
-  font-weight: bold;
+  font-weight: bold; /* Bold text for selected menu item */
 }
 
+.btn-export, .btn-clear, .btn-lock, .bar-zoom {
+  /* Common styles for buttons */
+  float: right; /* Align buttons to the right */
+  position: absolute; /* Absolute positioning */
+  color: white; /* Text color */
+  font-weight: bold; /* Bold text */
+  padding: 5px 10px; /* Padding for buttons */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Change cursor to pointer */
+  z-index: 5; /* Ensure buttons are above other elements */
+}
+
+/* Specific styles for export button */
 .btn-export {
-  float: right;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: white;
-  font-weight: bold;
-  border: 1px solid #0e5ba3;
-  background: #4ea9ff;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  z-index: 5;
+  top: 10px; /* Top offset */
+  right: 10px; /* Right offset */
+  border: 1px solid #0e5ba3; /* Border color */
+  background: #4ea9ff; /* Background color */
 }
 
+/* Specific styles for clear button */
 .btn-clear {
-  float: right;
-  position: absolute;
-  top: 10px;
-  right: 85px;
-  color: white;
-  font-weight: bold;
-  border: 1px solid #96015b;
-  background: #e3195a;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  z-index: 5;
-}
-.swal-wide{
-    width:80% !important;
+  top: 10px; /* Top offset */
+  right: 85px; /* Right offset */
+  border: 1px solid #96015b; /* Border color */
+  background: #e3195a; /* Background color */
 }
 
-.btn-lock {
-  float: right;
-  position: absolute;
-  bottom: 10px;
-  right: 140px;
-  display: flex;
-  font-size: 24px;
-  color: white;
-  padding: 5px 10px;
-  background: #555555;
-  border-radius: 4px;
-  border-right: 1px solid var(--border-color);
-  z-index: 5;
-  cursor: pointer;
-}
-
+/* Specific styles for zoom bar */
 .bar-zoom {
-  float: right;
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  display: flex;
-  font-size: 24px;
-  color: white;
-  padding: 5px 10px;
-  background: #555555;
-  border-radius: 4px;
-  border-right: 1px solid var(--border-color);
-  z-index: 5;
+  bottom: 10px; /* Bottom offset */
+  right: 10px; /* Right offset */
+  font-size: 24px; /* Font size */
+  background: #555555; /* Background color */
 }
+
+/* Specific styles for lock button */
+.btn-lock {
+  bottom: 10px; /* Bottom offset */
+  right: 140px; /* Right offset */
+  font-size: 24px; /* Font size */
+  background: #555555; /* Background color */
+}
+
 .bar-zoom svg {
-  cursor: pointer;
-  padding-left: 10px;
+  cursor: pointer; /* Change cursor to pointer for SVGs */
+  padding-left: 10px; /* Left padding for SVGs */
 }
+
 .bar-zoom svg:nth-child(1) {
-  padding-left: 0px;
+  padding-left: 0px; /* No left padding for first SVG */
 }
 
 #drawflow {
-  position: relative;
-  width: calc(100vw - 301px);
-  height: calc(100% - 50px);
-  top: 40px;
-  background: var(--background-color);
-  background-size: 25px 25px;
+  /* Styles for the main drawflow area */
+  position: relative; /* Relative positioning */
+  width: calc(100vw - 301px); /* Width calculated based on viewport */
+  height: calc(100% - 50px); /* Height calculated based on available space */
+  top: 40px; /* Top offset */
+  background: var(--background-color); /* Background color */
+  background-size: 25px 25px; /* Background size for grid pattern */
   background-image:
-   linear-gradient(to right, #f1f1f1 1px, transparent 1px),
-   linear-gradient(to bottom, #f1f1f1 1px, transparent 1px);
+   linear-gradient(to right, #f1f1f1 1px, transparent 1px), /* Horizontal grid */
+   linear-gradient(to bottom, #f1f1f1 1px, transparent 1px); /* Vertical grid */
 }
 
 @media only screen and (max-width: 768px) {
+  /* Styles for mobile responsiveness */
   .col {
-    width: 50px;
+    width: 50px; /* Reduced width for columns on smaller screens */
   }
   .col .drag-drawflow span {
-    display:none;
+    display:none; /* Hide span elements in columns */
   }
   #drawflow {
-    width: calc(100vw - 51px);
+    width: calc(100vw - 51px); /* Adjust width for smaller screens */
   }
 }
 
-
-
-/* Editing Drawflow */
-
+/* Editing Drawflow styles */
 .drawflow .drawflow-node {
-  background: var(--background-color);
-  border: 1px solid var(--border-color);
-  -webkit-box-shadow: 0 2px 15px 2px var(--border-color);
-  box-shadow: 0 2px 15px 2px var(--border-color);
-  padding: 0px;
-  width: 200px;
+  /* Styles for drawflow nodes */
+  background: var(--background-color); /* Background color */
+  border: 1px solid var(--border-color); /* Border using defined variable */
+  box-shadow: 0 2px 15px 2px var(--border-color); /* Box shadow for depth */
+  padding: 0px; /* No padding */
+  width: 200px; /* Fixed width for nodes */
 }
 
-.drawflow .drawflow-node.selected  {
-  background: white;
-  border: 1px solid #4ea9ff;
-  -webkit-box-shadow: 0 2px 20px 2px #4ea9ff;
-  box-shadow: 0 2px 20px 2px #4ea9ff;
+.drawflow .drawflow-node.selected {
+  /* Styles for selected drawflow nodes */
+  background: white; /* Background color when selected */
+  border: 1px solid #4ea9ff; /* Border color when selected */
+  box-shadow: 0 2px 20px 2px #4ea9ff; /* Enhanced shadow for selected state */
 }
 
 .drawflow .drawflow-node.selected .title-box {
-  color: #22598c;
-  /*border-bottom: 1px solid #4ea9ff;*/
+  /* Styles for title box in selected nodes */
+  color: #22598c; /* Text color */
 }
 
 .drawflow .connection .main-path {
-  stroke: #4ea9ff;
-  stroke-width: 3px;
+  /* Styles for main connection paths */
+  stroke: #4ea9ff; /* Stroke color */
+  stroke-width: 3px; /* Stroke width */
 }
 
 .drawflow .drawflow-node .input, .drawflow .drawflow-node .output {
-  height: 15px;
-  width: 15px;
-  border: 2px solid var(--border-color);
+  /* Styles for input/output ports */
+  height: 15px; /* Height */
+  width: 15px; /* Width */
+  border: 2px solid var(--border-color); /* Border using defined variable */
 }
 
 .drawflow .drawflow-node .input:hover, .drawflow .drawflow-node .output:hover {
-  background: #4ea9ff;
+  /* Hover styles for input/output ports */
+  background: #4ea9ff; /* Change background color on hover */
 }
 
 .drawflow .drawflow-node .output {
-  right: 10px;
+  right: 10px; /* Right positioning for output ports */
 }
 
 .drawflow .drawflow-node .input {
-  left: -10px;
-  background: white;
+  left: -10px; /* Left positioning for input ports */
+  background: white; /* Background color for input ports */
 }
 
 .drawflow > .drawflow-delete {
-  border: 2px solid #43b993;
-  background: white;
-  color: #43b993;
-  -webkit-box-shadow: 0 2px 20px 2px #43b993;
-  box-shadow: 0 2px 20px 2px #43b993;
-}
-
-.drawflow-delete {
-  border: 2px solid #4ea9ff;
-  background: white;
-  color: #4ea9ff;
-  -webkit-box-shadow: 0 2px 20px 2px #4ea9ff;
-  box-shadow: 0 2px 20px 2px #4ea9ff;
-}
-
-.drawflow-node .title-box {
-  height: 50px;
-  line-height: 50px;
-  background: var(--background-box-title);
-  border-bottom: 1px solid #e9e9e9;
-  border-radius: 4px 4px 0px 0px;
-  padding-left: 10px;
-}
-.drawflow .title-box svg {
-  position: initial;
-}
-.drawflow-node .box {
-  padding: 10px 20px 20px 20px;
-  font-size: 14px;
-  color: #555555;
-
-}
-.drawflow-node .box p {
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-.drawflow-node.welcome {
-  width: 250px;
-}
-
-.drawflow-node.slack .title-box {
-  border-radius: 4px;
-}
-
-.drawflow-node input, .drawflow-node select, .drawflow-node textarea {
-  border-radius: 4px;
-  border: 1px solid var(--border-color);
-  height: 30px;
-  line-height: 30px;
-  font-size: 16px;
-  width: 158px;
-  color: #555555;
-}
-
-.drawflow-node textarea {
-  height: 100px;
-}
-
-
-.drawflow-node.personalized {
-  background: red;
-  height: 200px;
-  text-align: center;
-  color: white;
-}
-.drawflow-node.personalized .input {
-  background: yellow;
-}
-.drawflow-node.personalized .output {
-  background: green;
-}
-
-.drawflow-node.personalized.selected {
-  background: blue;
-}
-
-.drawflow .connection .point {
-  stroke: var(--border-color);
-  stroke-width: 2;
-  fill: white;
-  
-}
-
-.drawflow .connection .point.selected, .drawflow .connection .point:hover {
-  fill: #4ea9ff;
-}
-
-
-/* Modal */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 7;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.7);
-
-}
-
-.modal-content {
-  position: relative;
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 400px; /* Could be more or less, depending on screen size */
-}
-
-/* The Close Button */
-.modal .close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor:pointer;
-}
-
-@media only screen and (max-width: 768px) {
-  .modal-content {
-    width: 80%;
-  }
+  /* Styles for delete element */
+  border: 2px solid #43b993; /* Border color */
+  background: white; /* Background color */
+  color: #43b993; /* Text color */
+  box-shadow: 0 2px 20px 2px #43b993; /* Box shadow for depth */
 }
