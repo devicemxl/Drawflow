@@ -1,141 +1,173 @@
+/*
+drawflow.css
+------------
+styles used to define the appearance and layout of the flowchart editor and its components
+*/
+/* Container for the Drawflow editor */
 .parent-drawflow {
-  display: flex;
-  overflow: hidden;
-  touch-action: none;
-  outline:none;
+  display: flex;              /* Use flexbox for layout */
+  overflow: hidden;          /* Hide overflow to keep the layout clean */
+  touch-action: none;        /* Disable touch interactions */
+  outline: none;             /* Remove outline for a cleaner look */
 }
 
+/* Main Drawflow area */
 .drawflow {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  user-select: none;
-  perspective: 0;
+  width: 100%;               /* Full width of the parent container */
+  height: 100%;              /* Full height of the parent container */
+  position: relative;        /* Position relative for absolute positioning of child elements */
+  user-select: none;         /* Disable text selection */
+  perspective: 0;            /* Set perspective for 3D effects (if needed) */
 }
 
+/* Individual node container */
 .drawflow .parent-node {
-  position: relative;
-
+  position: relative;        /* Position relative for child elements */
 }
 
+/* Styling for individual nodes */
 .drawflow .drawflow-node {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  background: cyan;
-  width: 160px;
-  min-height: 40px;
-  border-radius:4px;
-  border: 2px solid black;
-  color: black;
-  z-index: 2;
-  padding: 15px;
+  display: flex;             /* Flexbox for internal layout */
+  align-items: center;       /* Center items vertically */
+  position: absolute;        /* Position absolute to allow for free placement */
+  background: cyan;         /* Background color for the node */
+  width: 160px;             /* Fixed width */
+  min-height: 40px;         /* Minimum height for nodes */
+  border-radius: 4px;       /* Rounded corners */
+  border: 2px solid black;  /* Border around nodes */
+  color: black;             /* Text color */
+  z-index: 2;               /* Layer order */
+  padding: 15px;            /* Padding inside nodes */
 }
 
+/* Styling for selected nodes */
 .drawflow .drawflow-node.selected {
-  background: red;
+  background: red;          /* Background color for selected nodes */
 }
+
+/* Styling for node hover state */
 .drawflow .drawflow-node:hover {
-  cursor: move;
+  cursor: move;             /* Change cursor to indicate draggable nodes */
 }
 
-.drawflow .drawflow-node .inputs, .drawflow .drawflow-node .outputs {
-  width: 0px;
+/* Inputs and outputs of nodes */
+.drawflow .drawflow-node .inputs,
+.drawflow .drawflow-node .outputs {
+  width: 0px;               /* Initially hidden inputs/outputs */
 }
 
+/* Content area inside the node */
 .drawflow .drawflow-node .drawflow_content_node {
-  width: 100%;
-  display: block;
+  width: 100%;              /* Full width of the node */
+  display: block;           /* Block display for content */
 }
 
-.drawflow .drawflow-node .input, .drawflow .drawflow-node .output {
-
-  position: relative;
-  width: 20px;
-  height: 20px;
-  background: white;
-  border-radius: 50%;
-  border: 2px solid black;
-  cursor: crosshair;
-  z-index: 1;
-  margin-bottom: 5px;
-}
-
-.drawflow .drawflow-node .input {
-  left: -27px;
-  top: 2px;
-  background: yellow;
-}
+/* Styling for input and output connectors */
+.drawflow .drawflow-node .input,
 .drawflow .drawflow-node .output {
-  right: -3px;
-  top: 2px;
+  position: relative;       /* Position relative for positioning within node */
+  width: 20px;              /* Size of connectors */
+  height: 20px;             /* Size of connectors */
+  background: white;       /* Background color */
+  border-radius: 50%;      /* Circular connectors */
+  border: 2px solid black;  /* Border for visibility */
+  cursor: crosshair;       /* Change cursor to indicate interactive elements */
+  z-index: 1;               /* Layer order */
+  margin-bottom: 5px;       /* Spacing between connectors */
 }
 
+/* Styling for input connectors */
+.drawflow .drawflow-node .input {
+  left: -27px;              /* Position to the left of the node */
+  top: 2px;                 /* Vertical alignment */
+  background: yellow;      /* Distinct color for inputs */
+}
+
+/* Styling for output connectors */
+.drawflow .drawflow-node .output {
+  right: -3px;              /* Position to the right of the node */
+  top: 2px;                 /* Vertical alignment */
+}
+
+/* SVG elements for connections */
 .drawflow svg {
-  z-index: 0;
-  position: absolute;
-  overflow: visible !important;
+  z-index: 0;               /* Layer order */
+  position: absolute;        /* Position absolute for free placement */
+  overflow: visible !important; /* Allow connections to extend outside */
 }
+
+/* Connection styling */
 .drawflow .connection {
-  position: absolute;
-  pointer-events: none;
-  aspect-ratio: 1 / 1;
+  position: absolute;        /* Position absolute for flexible placement */
+  pointer-events: none;      /* Prevent pointer events on the connection */
+  aspect-ratio: 1 / 1;      /* Maintain aspect ratio for connections */
 }
+
+/* Main path for connections */
 .drawflow .connection .main-path {
-  fill: none;
-  stroke-width: 5px;
-  stroke: steelblue;
-  pointer-events: all;
+  fill: none;               /* No fill for the connection line */
+  stroke-width: 5px;        /* Thickness of the line */
+  stroke: steelblue;        /* Color of the line */
+  pointer-events: all;      /* Allow pointer events for interaction */
 }
+
+/* Hover effect for connection lines */
 .drawflow .connection .main-path:hover {
-  stroke: #1266ab;
-  cursor: pointer;
+  stroke: #1266ab;         /* Change color on hover */
+  cursor: pointer;         /* Change cursor to indicate interactivity */
 }
 
+/* Selected connection styling */
 .drawflow .connection .main-path.selected {
-  stroke: #43b993;
+  stroke: #43b993;         /* Different color for selected connections */
 }
 
+/* Connection points styling */
 .drawflow .connection .point {
-  cursor: move;
-  stroke: black;
-  stroke-width: 2;
-  fill: white;
-  pointer-events: all;
+  cursor: move;            /* Change cursor to indicate draggable points */
+  stroke: black;           /* Color for connection points */
+  stroke-width: 2;         /* Thickness of points */
+  fill: white;             /* Fill color for points */
+  pointer-events: all;      /* Allow pointer events for interaction */
 }
 
-.drawflow .connection .point.selected, .drawflow .connection .point:hover {
-  fill: #1266ab;
+/* Hover and selected state for connection points */
+.drawflow .connection .point.selected,
+.drawflow .connection .point:hover {
+  fill: #1266ab;           /* Change fill color on hover or selection */
 }
 
+/* Main path styling for flow connections */
 .drawflow .main-path {
-  fill: none;
-  stroke-width: 5px;
-  stroke: steelblue;
+  fill: none;              /* No fill for main paths */
+  stroke-width: 5px;       /* Thickness of the line */
+  stroke: steelblue;       /* Color of the main path */
 }
 
+/* Delete button styling */
 .drawflow-delete {
-  position: absolute;
-  display: block;
-  width: 30px;
-  height: 30px;
-  background: black;
-  color: white;
-  z-index: 4;
-  border: 2px solid white;
-  line-height: 30px;
-  font-weight: bold;
-  text-align: center;
-  border-radius: 50%;
-  font-family: monospace;
-  cursor: pointer;
-}
-.drawflow > .drawflow-delete {
-  margin-left: -15px;
-  margin-top: 15px;
+  position: absolute;       /* Position absolute for free placement */
+  display: block;           /* Block display for visibility */
+  width: 30px;              /* Width of the delete button */
+  height: 30px;             /* Height of the delete button */
+  background: black;       /* Background color */
+  color: white;            /* Text color */
+  z-index: 4;               /* Layer order */
+  border: 2px solid white;  /* Border for visibility */
+  line-height: 30px;       /* Center text vertically */
+  font-weight: bold;       /* Bold text */
+  text-align: center;       /* Center text horizontally */
+  border-radius: 50%;      /* Circular delete button */
+  font-family: monospace;   /* Font style for delete button */
+  cursor: pointer;         /* Change cursor to indicate interactivity */
 }
 
-.parent-node .drawflow-delete {
-  right: -15px;
-  top: -15px;
+/* Positioning of the delete button */
+.drawflow > .drawflow-delete {
+  margin-left: -15px;      /* Adjust position for proper alignment */
+  margin-top: 15px;        /* Adjust position for proper alignment */
 }
+
+/* Positioning of the delete button relative to parent nodes */
+.parent-node .drawflow-delete {
+  right: -15px;   
